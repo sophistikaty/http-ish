@@ -8,17 +8,28 @@ import java.util.Date;
  * * ServerSocket and Socket class.
  * */
 
-public class SimpleServer { 
-    public static void main(String[] args) throws IOException { 
-        final ServerSocket server = new ServerSocket(8080); 
-        System.out.println("Listening for connection on port 8080 ...."); 
-        while (true){ 
-            try (Socket socket = server.accept()) { 
+public class SimpleServer {
+
+    SimpleServer(){
+        try {
+
+            final ServerSocket server = new ServerSocket(8080,100);
+            System.out.println("Listening for connection on port 8080 ...."); 
+            while (true){ 
+                Socket socket = server.accept();
                 Date today = new Date(); 
                 String httpResponse = "HTTP/1.1 200 OK\r\n\r\n" + today; 
                 socket.getOutputStream().write(httpResponse.getBytes("UTF-8")); 
-            }
+            }  
+        } catch( IOException exception){
+                exception.printStackTrace();
+        } finally {
+            //close connection
+        }
+    }
 
-        } 
+    public static void main(String[] args) throws IOException { 
+        
+        
     } 
 }
